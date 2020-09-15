@@ -104,8 +104,38 @@ try:
         print arry5[1]
 except:
         print 'out of bound please check'
+   
+#########################
+# You are given a sorted array A and a target T. Return the index where it would be placed if inserted in order.
+# For example,
+# A = [1,2,4,4,5,6,8] and T = 3, return index 2
+# A = [1,2,4,4,5,6,8] and T = 0, return index 0
+# A = [1,2,4,4,5,6,8] and T = 4, return index 4, insert after other 4
+########################
 
-##########Search Array of Unknown length: You are given an array, but you don't know the length. Write a program to find a target element in the array.
+print 'You are given a sorted array A and a target T. Return the index where it would be placed if inserted in order'
 
-print 'Search Array of Unknown length: You are given an array, but you dont know the length'
+def findInsertionIndex(array,target):
+        end = len(array) -1
+        start = 0
+        while (start <= end):
+                mid = start + (end - start)/2
+                if(array[mid] <= target):
+                        if(mid == len(array) -1):
+                                return len(array) -1
+                        start = mid + 1
+                else:
+                        if mid == 0 or array[mid - 1] <= target:
+                                return mid
+                        end = mid -1
+        return -1
+
+
+arry6 = [1,2,4,4,5,6,8]
+target = 3
+
+index = findInsertionIndex(arry6,target)
+print 'We can insert in position %d in arry [1,2,4,4,5,6,8]'%index
+
+
 
