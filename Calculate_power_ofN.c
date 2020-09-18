@@ -31,7 +31,7 @@ int absNum(int number) {
 
 float calculatePower(int num, int power) {
     
-    if ((power <= 0) && (num == 0)) {
+    if ((num == 0)) {
         return -1;
     }
     
