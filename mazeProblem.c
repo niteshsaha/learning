@@ -18,7 +18,7 @@ For example, a path exists in the following maze:
 #include <stdio.h>
 #include<stdbool.h>
 
-#define N  3
+#define N  4
 
 enum STATE {
     UNVISITED,
@@ -27,25 +27,33 @@ enum STATE {
 };
 
 bool oob(int rowLen, int colLen,int i, int j) {
-    return i < 0 || i >= rowLen-1 || j < 0 || j >=colLen-1;
+    return i < 0 || i >= rowLen || j < 0 || j >=colLen;
 }
 
 bool findPath(int path[][N],int rowLen,int colLen,int i , int j, int memo[][N]) {
+    //printf("%d %d",i,j);
     if(oob(rowLen,colLen,i,j) || path[i][j] == 1) {
         return false;
+    }
+    
+    //printf("%d %d\n",i,j);
+    if(path[i][j] == 1) {
+        return false;
+    }
+    
+        
+    if(i == rowLen -1 && j == colLen -1) {
+        return true;
     }
     
     if (memo[i][j] == VISITING || memo[i][j] == PATH_NOT_FOUND) {
         return false;
     }
     
-    if(i == rowLen -1 && j == colLen -1) {
-        return true;
-    }
-    
     // take array of size 4 for four side
-
-    int buff[4][2] = {i,j+1,i,j-1,i+1,j,i-1,j};
+    memo[i][j] = VISITING;
+    
+    int buff[4][2] = {i+1,j,i-1,j,i,j+1,i,j-1};
     for(int k=0;k < 4;k++) {
         if(findPath(path,rowLen,colLen,buff[k][0],buff[k][1],memo) ) {
             return true;
@@ -60,7 +68,7 @@ int main()
 {
     int rowLen;
     int colLen;
-    int path[N][N] = {0,1,1,0,0,1,0,0,0};
+    int path[N][N] = {0,1,1,1,0,1,1,1,0,0,0,0,1,1,1,0};
     rowLen = sizeof(path)/sizeof(path[0]);
     colLen = (sizeof(path)/sizeof(path[0][0]))/rowLen;
     int memo[N][N] = {};
