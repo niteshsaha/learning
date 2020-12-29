@@ -7,27 +7,27 @@ For example,
 #include <stdio.h>
 #include<stdlib.h>
 
-void revStr(char *abc,int start, int Length) {
+void revStr(char *abc,int start, int end) {
      int i;
      char temp;
-     int end = Length -1;
-     for(i = start;i < ((Length-start)/2 + start);i++) {
-        temp = abc[i];
-        abc[i] = abc[end];
+     while(start<end) {
+        temp = abc[start];
+        abc[start] = abc[end];
         abc[end] = temp;
+        start++;
         end --;
      }
 }
 
 void  revWord(char *abc,int leng) {
     //reverse entire str
-    revStr(abc,0,leng);
+    revStr(abc,0,leng-1);
     
     int i=0,start=0;
     // reverse word
     for(i=0;i<=leng;i++) {
         if((abc[i] == ' ') || (i == leng)) {
-            revStr(abc,start,i);
+            revStr(abc,start,i-1);
             start = i+1;
         }
     }
