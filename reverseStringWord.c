@@ -5,43 +5,42 @@ For example,
 *******************************************************************************/
 
 #include <stdio.h>
-#include <string.h>
+#include<stdlib.h>
 
-int main()
-{
-    char str[] = "nitesh i live in a house";
-    int strSize= strlen(str);
+void revStr(char *abc,int start, int Length) {
+     int i;
+     char temp;
+     int end = Length -1;
+     for(i = start;i < ((Length-start)/2 + start);i++) {
+        temp = abc[i];
+        abc[i] = abc[end];
+        abc[end] = temp;
+        end --;
+     }
+}
+
+void  revWord(char *abc,int leng) {
+    //reverse entire str
+    revStr(abc,0,leng);
     
-    printf("Lenght of string : %d",strSize);
-    
-    char str1[strSize];
-    
-    int startWord =0, endWord=strSize-1,i,k=0,j;
-    
-    for(i=strSize-1;i>=0;i--) {
-        if(str[i] == ' ') {
-            startWord = i + 1;
-            for(j=startWord;j<=endWord;j++) {
-                str1[k] = str[j];  
-                k++;
-            }
-            if(startWord-2 >= 0) {
-                str1[k] = ' ';
-                k++;
-                endWord = startWord-2;
-                startWord = 0;
-            }
-        } else if (i == 0) {
-            for(j=i;j<=endWord;j++) {
-                str1[k] = str[j];  
-                k++;
-            }
+    int i=0,start=0;
+    // reverse word
+    for(i=0;i<=leng;i++) {
+        if((abc[i] == ' ') || (i == leng)) {
+            revStr(abc,start,i);
+            start = i+1;
         }
     }
     
-        //print the new array
-    printf("\n orginal string : %s",str);
-    printf("\n final str is : %s",str1);
-   
-    
+}
+
+int main()
+{
+    char abc[] = "this is nitesh saha";
+    int leng = strlen(abc);
+    printf("Length of string is %d\n",leng);
+
+    revWord(abc,leng);
+    printf("Reverse string is %s",abc);
+    return 0;
 }
