@@ -8,6 +8,8 @@
          4 0 0 0 0 0 1
          5 0 0 0 0 0 1
          6 0 0 0 0 0 0
+
+node_state
     unvisited    0
     visiting     1 
     visited      2
@@ -15,7 +17,8 @@
 #include <stdio.h>
 
 #define NODE 6
-int node[NODE] = {0,0,0,0,0,0};
+int node_state[NODE] = {0,0,0,0,0,0};
+int queue_start=0, queue_current=0;
 int Queue[NODE] = {-1,-1,-1,-1,-1,-1};
 int vertix[NODE][NODE] = {0,1,1,0,0,0,
                           0,0,0,1,0,0,
@@ -24,11 +27,14 @@ int vertix[NODE][NODE] = {0,1,1,0,0,0,
                           0,0,0,0,0,1,
                           0,0,0,0,0,0};
 
-void bfs_traverse(int node_val, int queue_start, int queue_current) {
+void bfs_traverse(int node_val) {
+    if(node_state[node_val] != 0)
+        return;
+
     // add to queue
     Queue[queue_current] = node_val;
     queue_current++;
-    node[node_val] = 1;
+    node_state[node_val] = 1;
     while(Queue[queue_start] != -1 && queue_start < NODE) {
         
         // pop out from queue
@@ -41,14 +47,14 @@ void bfs_traverse(int node_val, int queue_start, int queue_current) {
         // visiting each neigh of node 
         for (int j=0;j<NODE;j++) {
           // search the neigh and check that node is unvisited
-          if(vertix[temp][j] == 1 && node[j] == 0) {
+          if(vertix[temp][j] == 1 && node_state[j] == 0) {
               // add to queue
               Queue[queue_current] = j;
               queue_current++;
-              node[j] = 1;
+              node_state[j] = 1;
           }
            
-          node[temp] = 2;
+          node_state[temp] = 2;
         }
     }
 }
@@ -58,9 +64,11 @@ int main()
     int i;
     //mark all node to unvisited
     for (i=0;i<NODE;i++) {
-        node[i] = 0;
+        node_state[i] = 0;
     }
 
-    bfs_traverse(0,0,0);
+    for (i=0;i<NODE;i++) {
+        bfs_traverse(i);
+    }
     return 0;
 }
